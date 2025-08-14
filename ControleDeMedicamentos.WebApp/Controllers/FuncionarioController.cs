@@ -10,11 +10,10 @@ public class FuncionarioController : Controller
 {
     private readonly RepositorioFuncionarioEmArquivo repositorioFuncionario;
 
-    public FuncionarioController()
+    // Inversão de controle
+    public FuncionarioController(RepositorioFuncionarioEmArquivo repositorioFuncionario)
     {
-        var contexto = new ContextoDados(carregarDados: true);
-
-        repositorioFuncionario = new RepositorioFuncionarioEmArquivo(contexto);
+        this.repositorioFuncionario = repositorioFuncionario;
     }
 
     [HttpGet]
