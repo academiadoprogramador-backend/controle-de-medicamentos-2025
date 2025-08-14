@@ -1,0 +1,59 @@
+﻿<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    @* Bootstrap *@
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
+    <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js" integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q" crossorigin="anonymous"></script>
+
+    @* Bootstrap Icons *@
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+
+    <title>@ViewBag.Titulo | Controle de Medicamentos</title>
+</head>
+<body data-bs-theme="dark">
+    @* Barra de Navegação / Navbar *@
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container">
+            <a class="navbar-brand" href="/">Controle de Medicamentos</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse mt-3 mt-lg-0" id="navbarNav">
+                <ul class="d-flex gap-2 navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="btn btn-primary w-100 px-4" asp-controller="Funcionario" asp-action="Index">Funcionários</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="btn btn-primary w-100 px-4" asp-controller="Fornecedor" asp-action="Index">Fornecedores</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="btn btn-primary w-100 px-4" asp-controller="Paciente" asp-action="Index">Pacientes</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="btn btn-primary w-100 px-4" asp-controller="Medicamento" asp-action="Index">Medicamentos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="btn btn-primary w-100 px-4" asp-controller="Prescricao" asp-action="Index">Prescrições</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="btn btn-primary w-100 px-4" asp-controller="Estoque" asp-action="Index">Estoque</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    @* Cabeçalho com o Título da Página Atual *@
+    <header class="container my-4">
+        <h1>@ViewBag.Titulo</h1>
+    </header>
+
+    <hr />
+
+    @* Conteúdo Principal da Página *@
+    <main class="container my-4">
+        @RenderBody()
+    </main>
+</body>
+</html>

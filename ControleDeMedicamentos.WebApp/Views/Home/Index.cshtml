@@ -1,0 +1,62 @@
+﻿@{
+	ViewBag.Titulo = "Página Inicial";
+}
+
+<div class="row g-5 justify-content-center mt-3">
+	<div class="col order-1 order-lg-0">
+		<h2 class="text-primary fs-1 fw-bold">Seja bem-vindo/a!</h2>
+
+		<p class="fs-4 mt-3">
+			O Controle de Medicamentos contém todas as ferramentas necessárias para gerenciar o dia-a-dia de sua clínica médica!
+		</p>
+
+		<p class="fs-4 mt-3">
+			Você tem a possibilidade de gerenciar o estoque, cadastrar funcionários e pacientes, além de registrar prescrições médicas.
+		</p>
+
+		<p class="fs-4 mt-4 text-secondary-emphasis">Clique em uma das opções abaixo para prosseguir:</p>
+
+		<div class="d-grid d-lg-flex flex-wrap gap-2">
+			<a 
+				asp-controller="Funcionario"
+				asp-action="Index"
+				class="btn btn-outline-primary fw-semibold px-5 rounded-3">
+				Funcionários
+			</a>
+			<a 
+				asp-controller="Fornecedor"
+				asp-action="Index"
+				class="btn btn-outline-primary fw-semibold px-5 rounded-3">
+				Fornecedores
+			</a>
+			<a 
+				asp-controller="Paciente"
+				asp-action="Index"
+				class="btn btn-outline-primary fw-semibold px-5 rounded-3">
+				Pacientes
+			</a>
+			<a 
+				asp-controller="Medicamento"
+				asp-action="Index"
+				class="btn btn-outline-primary fw-semibold px-5 rounded-3">
+				Medicamentos
+			</a>
+			<a 
+				asp-controller="Prescricao"
+				asp-action="Index"
+				class="btn btn-outline-primary fw-semibold px-5 rounded-3">
+				Prescrições
+			</a>
+			<a 
+				asp-controller="Estoque"
+				asp-action="Index"
+				class="btn btn-outline-primary fw-semibold px-5 rounded-3">
+				Estoque
+			</a>
+		</div>
+	</div>
+
+	<div class="col-lg-5 order-0 order-lg-1">
+		<img src="~/images/undraw_medicine.svg" class="img-fluid" />
+	</div>
+</div>
