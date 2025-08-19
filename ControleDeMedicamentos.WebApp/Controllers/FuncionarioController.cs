@@ -11,7 +11,9 @@ public class FuncionarioController : Controller
     private readonly RepositorioFuncionarioEmArquivo repositorioFuncionario;
 
     // Inversão de controle
-    public FuncionarioController(RepositorioFuncionarioEmArquivo repositorioFuncionario)
+    public FuncionarioController(
+        RepositorioFuncionarioEmArquivo repositorioFuncionario
+    )
     {
         this.repositorioFuncionario = repositorioFuncionario;
     }
