@@ -10,7 +10,7 @@ public class Funcionario : EntidadeBase<Funcionario>
     public string Telefone { get; set; }
     public string Cpf { get; set; }
 
-    protected Funcionario() { }
+    public Funcionario() { }
 
     public Funcionario(string nome, string telefone, string cpf) : this()
     {
