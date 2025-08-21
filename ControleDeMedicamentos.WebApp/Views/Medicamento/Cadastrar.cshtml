@@ -1,0 +1,32 @@
+﻿@{
+    ViewBag.Titulo = "Cadastro de Medicamento";
+}
+
+@model CadastrarMedicamentoViewModel;
+
+<div class="row justify-content-center">
+    <form class="col-lg-8 col-xl-6" asp-action="Cadastrar" method="post">
+        <div class="mb-3">
+            <label asp-for="Nome" class="form-label">Nome</label>
+            <input class="form-control" asp-for="Nome">
+            <span asp-validation-for="Nome" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Descricao" class="form-label">Descrição</label>
+            <input class="form-control" asp-for="Descricao">
+            <span asp-validation-for="Descricao" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="FornecedorId" class="form-label">Fornecedor</label>
+            <select class="form-select" asp-for="FornecedorId" asp-items="@Model.FornecedoresDisponiveis"></select>
+            <span asp-validation-for="FornecedorId" class="text-danger"></span>
+        </div>
+
+        <div class="d-flex gap-2 justify-content-end">
+            <a asp-action="Index" class="btn btn-outline-primary px-5">Voltar</a>
+            <button class="btn btn-primary px-5">Gravar</button>
+        </div>
+    </form>
+</div>

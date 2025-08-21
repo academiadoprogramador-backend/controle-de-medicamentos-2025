@@ -1,6 +1,7 @@
 using ControleDeMedicamentos.Infraestrutura.Arquivos.Compartilhado;
 using ControleDeMedicamentos.Infraestrutura.Arquivos.ModuloFornecedor;
 using ControleDeMedicamentos.Infraestrutura.Arquivos.ModuloFuncionario;
+using ControleDeMedicamentos.Infraestrutura.Arquivos.ModuloMedicamento;
 using Serilog;
 using Serilog.Events;
 
@@ -14,6 +15,7 @@ public class Program
 
         // Injeção de dependências criadas por nós
         builder.Services.AddScoped((_) => new ContextoDados(true));
+        builder.Services.AddScoped<RepositorioMedicamentoEmArquivo>();
         builder.Services.AddScoped<RepositorioFornecedorEmArquivo>();
         builder.Services.AddScoped<RepositorioFuncionarioEmArquivo>();
 
