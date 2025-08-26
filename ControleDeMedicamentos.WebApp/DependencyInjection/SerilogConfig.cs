@@ -5,7 +5,7 @@ namespace ControleDeMedicamentos.WebApp.DependencyInjection;
 
 public static class SerilogConfig
 {
-    public static void AddSerilogConfig(IServiceCollection services, ILoggingBuilder logging, IConfiguration configuration)
+    public static void AddSerilogConfig(this IServiceCollection services, ILoggingBuilder logging, IConfiguration configuration)
     {
         // Pegar o caminho do AppData
         var caminhoAppData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
