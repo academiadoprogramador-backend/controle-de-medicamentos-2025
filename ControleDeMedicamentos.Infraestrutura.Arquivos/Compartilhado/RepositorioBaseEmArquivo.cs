@@ -64,17 +64,8 @@ public abstract class RepositorioBaseEmArquivo<Tipo> where Tipo : EntidadeBase<T
 
     public Tipo SelecionarRegistroPorId(Guid idSelecionado)
     {
-        for (int i = 0; i < registros.Count; i++)
-        {
-            Tipo registro = registros[i];
+        var registro = registros.Find(r => r.Id == idSelecionado);
 
-            if (registro == null)
-                continue;
-
-            if (registro.Id == idSelecionado)
-                return registro;
-        }
-
-        return null;
+        return registro;
     }
 }
