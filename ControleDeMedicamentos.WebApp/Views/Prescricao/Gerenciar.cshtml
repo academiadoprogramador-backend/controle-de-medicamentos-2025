@@ -1,0 +1,102 @@
+﻿@{
+    ViewBag.Titulo = "Gestão de Prescrição";
+}
+
+@model GerenciarPrescricaoViewModel;
+
+<div class="row justify-content-center">
+    <div class="col-lg-8 col-xl-6">
+        <h4>Informações da Prescrição</h4>
+
+        <div class="my-3">
+            <label asp-for="Descricao" class="form-label">Descrição</label>
+            <input class="form-control" asp-for="Descricao" readonly disabled>
+            <span asp-validation-for="Descricao" class="text-danger"></span>
+        </div>
+
+        <div class="my-3">
+            <label asp-for="CrmMedico" class="form-label">CRM do Médico</label>
+            <input class="form-control" asp-for="CrmMedico" readonly disabled>
+            <input class="form-control" asp-for="CrmMedico" hidden>
+            <span asp-validation-for="CrmMedico" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="PacienteId" class="form-label">Paciente</label>
+            <input class="form-control" asp-for="PacienteId" hidden>
+            <input class="form-control" asp-for="Paciente" readonly disabled>
+            <span asp-validation-for="PacienteId" class="text-danger"></span>
+        </div>
+
+        <form asp-action="AdicionarMedicamentoPrescrito" asp-route-idPrescricao="@Model.Id" class="mb-3">
+
+            <h4>Prescrever Medicamento</h4>
+
+            <div class="d-flex flex-wrap justify-content-between align-items-end gap-1 mt-3 w-100">
+                <select name="MedicamentoId" asp-items="@Model.MedicamentosDisponiveis" class="form-select"></select>
+
+                <div class="mt-2">
+                    <label for="DosagemMedicamento">Dosagem:</label>
+                    <input name="DosagemMedicamento" type="text" class="form-control" placeholder="10mg" />
+                </div>
+                <div>
+                    <label for="PeriodoMedicamento">Período de Uso:</label>
+                    <input name="PeriodoMedicamento" type="text" class="form-control" placeholder="Ex: 3 dias a cada 8h" />
+                </div>
+                <div>
+                    <label for="QuantidadeMedicamento">Quantidade:</label>
+                    <input name="QuantidadeMedicamento" type="text" class="form-control" value="0" min="1" />
+                </div>
+
+                <button class="btn btn-primary ms-lg-auto mt-3" type="submit">Adicionar Medicamento</button>
+            </div>
+        </form>
+
+        <h3 class="mb-3">Medicamentos Selecionados</h3>
+
+        @if (!Model.MedicamentosPrescritos.Any())
+        {
+            <p class="fw-semibold">Ainda não há nenhum medicamento relacionado à prescrição...</p>
+        }
+        else
+        {
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Medicamento</th>
+                        <th>Dosagem</th>
+                        <th>Período</th>
+                        <th>Quantidade</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (DetalhesMedicamentoPrescritoViewModel mp in Model.MedicamentosPrescritos)
+                    {
+                        <tr>
+                            <td valign="middle">@mp.Medicamento</td>
+                            <td valign="middle">@mp.Dosagem</td>
+                            <td valign="middle">@mp.Periodo</td>
+                            <td valign="middle">@mp.Quantidade</td>
+                            <td>
+                                <form class="my-auto"
+                                      asp-action="RemoverMedicamentoPrescrito"
+                                      asp-route-idPrescricao="@Model.Id"
+                                      asp-route-idMedicamentoPrescrito="@mp.Id">
+                                    <button class="btn btn-danger d-flex justify-content-center align-items-center rounded-circle"
+                                            style="min-height: 40px">
+                                        <i class="bi bi-trash2"></i>
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+
+        <div class="d-flex gap-2 justify-content-end">
+            <a asp-action="Index" class="btn btn-outline-primary px-5">Voltar</a>
+        </div>
+    </div>
+</div>

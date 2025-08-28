@@ -20,6 +20,7 @@
                     <p class="card-text mb-0"><strong>CRM do Médico:</strong> @d.CrmMedico</p>
                     <p class="card-text mb-0"><strong>Data de Emissão:</strong> @d.DataEmissao.ToShortDateString()</p>
                     <p class="card-text mb-0"><strong>Data de Validade:</strong> @d.DataValidade.ToShortDateString()</p>
+                    <p class="card-text mb-0"><strong>Medicamentos Prescritos:</strong> @string.Join(", ", d.MedicamentosPrescritos.Select(m => m.Medicamento))</p>
                 </div>
                 <div class="card-actions ms-auto me-3 mb-3 d-flex gap-1">
                     <a class="btn btn-sm btn-primary rounded-circle d-flex justify-content-center align-items-center"

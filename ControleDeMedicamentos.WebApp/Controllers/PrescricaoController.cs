@@ -76,4 +76,55 @@ public class PrescricaoController : Controller
 
         return RedirectToAction(nameof(Index));
     }
+
+    [HttpGet]
+    public IActionResult Gerenciar(Guid id)
+    {
+        var medicamentosDisponiveis = repositorioMedicamento.SelecionarRegistros();
+
+        var prescricaoSelecionada = repositorioPrescricao.SelecionarRegistroPorId(id);
+
+        var gerenciarVm = new GerenciarPrescricaoViewModel(
+            id,
+            prescricaoSelecionada.Descricao,
+            prescricaoSelecionada.CrmMedico,
+            prescricaoSelecionada.Paciente.Id,
+            prescricaoSelecionada.Paciente.Nome,
+            prescricaoSelecionada.MedicamentosPrescritos,
+            medicamentosDisponiveis
+        );
+
+        return View(gerenciarVm);
+    }
+
+    [HttpPost]
+    public IActionResult AdicionarMedicamentoPrescrito(Guid idPrescricao, AdicionarMedicamentoPrescritoViewModel adicionarMedicamentoVm)
+    {
+        var prescricaoSelecionada = repositorioPrescricao.SelecionarRegistroPorId(idPrescricao);
+
+        var medicamentoSelecionado = repositorioMedicamento.SelecionarRegistroPorId(adicionarMedicamentoVm.MedicamentoId);
+
+        prescricaoSelecionada.AdicionarMedicamentoPrescrito(
+            medicamentoSelecionado,
+            adicionarMedicamentoVm.DosagemMedicamento,
+            adicionarMedicamentoVm.PeriodoMedicamento,
+            adicionarMedicamentoVm.QuantidadeMedicamento
+        );
+
+        contexto.Salvar();
+
+        return RedirectToAction(nameof(Gerenciar), new { id = idPrescricao });
+    }
+
+    [HttpPost]
+    public IActionResult RemoverMedicamentoPrescrito(Guid idPrescricao, Guid idMedicamentoPrescrito)
+    {
+        var prescricaoSelecionada = repositorioPrescricao.SelecionarRegistroPorId(idPrescricao);
+
+        prescricaoSelecionada.RemoverMedicamentoPrescrito(idMedicamentoPrescrito);
+
+        contexto.Salvar();
+
+        return RedirectToAction(nameof(Gerenciar), new { id = idPrescricao });
+    }
 }

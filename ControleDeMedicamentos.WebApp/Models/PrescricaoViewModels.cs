@@ -1,4 +1,5 @@
-﻿using ControleDeMedicamentos.Dominio.ModuloPaciente;
+﻿using ControleDeMedicamentos.Dominio.ModuloMedicamento;
+using ControleDeMedicamentos.Dominio.ModuloPaciente;
 using ControleDeMedicamentos.Dominio.ModuloPrescricao;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.ComponentModel.DataAnnotations;
@@ -49,7 +50,8 @@ public class VisualizarPrescricoesViewModel
                 p.CrmMedico,
                 p.Paciente.Nome,
                 p.DataEmissao,
-                p.DataValidade
+                p.DataValidade,
+                p.MedicamentosPrescritos
             ))
             .ToList();
     }
@@ -64,13 +66,16 @@ public class DetalhesPrescricaoViewModel
     public DateTime DataEmissao { get; set; }
     public DateTime DataValidade { get; set; }
 
+    public List<DetalhesMedicamentoPrescritoViewModel> MedicamentosPrescritos { get; set; } = new List<DetalhesMedicamentoPrescritoViewModel>();
+
     public DetalhesPrescricaoViewModel(
         Guid id,
         string descricao,
         string crmMedico,
         string paciente,
         DateTime dataEmissao,
-        DateTime dataValidade
+        DateTime dataValidade,
+        List<MedicamentoPrescrito> medicamentosPrescritos
     )
     {
         Id = id;
@@ -79,5 +84,107 @@ public class DetalhesPrescricaoViewModel
         Paciente = paciente;
         DataEmissao = dataEmissao;
         DataValidade = dataValidade;
+
+        MedicamentosPrescritos = medicamentosPrescritos
+          .Select(m => new DetalhesMedicamentoPrescritoViewModel(
+              m.Id,
+              m.Medicamento.Id,
+              m.Medicamento.Nome,
+              m.Dosagem,
+              m.Periodo,
+              m.Quantidade))
+          .ToList();
+    }
+}
+
+public class AdicionarMedicamentoPrescritoViewModel
+{
+    public Guid MedicamentoId { get; set; }
+    public string DosagemMedicamento { get; set; }
+    public string PeriodoMedicamento { get; set; }
+    public int QuantidadeMedicamento { get; set; }
+}
+
+public class DetalhesMedicamentoPrescritoViewModel
+{
+    public Guid Id { get; set; }
+    public Guid MedicamentoId { get; set; }
+    public string Medicamento { get; set; }
+    public string Dosagem { get; set; }
+    public string Periodo { get; set; }
+    public int Quantidade { get; set; }
+
+    public DetalhesMedicamentoPrescritoViewModel() { }
+
+    public DetalhesMedicamentoPrescritoViewModel(
+        Guid id,
+        Guid medicamentoId,
+        string nomeMedicamento,
+        string dosagem,
+        string periodo,
+        int quantidade
+    ) : this()
+    {
+        Id = id;
+        MedicamentoId = medicamentoId;
+        Medicamento = nomeMedicamento;
+        Dosagem = dosagem;
+        Periodo = periodo;
+        Quantidade = quantidade;
+    }
+}
+
+public class GerenciarPrescricaoViewModel
+{
+    public Guid Id { get; set; }
+    public string Descricao { get; set; }
+    public string CrmMedico { get; set; }
+    public Guid PacienteId { get; set; }
+    public string Paciente { get; set; }
+
+    public List<SelectListItem> MedicamentosDisponiveis { get; set; }
+    public List<DetalhesMedicamentoPrescritoViewModel> MedicamentosPrescritos { get; set; } = new List<DetalhesMedicamentoPrescritoViewModel>();
+
+    public GerenciarPrescricaoViewModel() { }
+
+    public GerenciarPrescricaoViewModel(
+        Guid id,
+        string descricao,
+        string crmMedico,
+        Guid pacienteId,
+        string paciente,
+        List<Medicamento> medicamentos
+    ) : this()
+    {
+        Id = id;
+        Descricao = descricao;
+        CrmMedico = crmMedico;
+        PacienteId = pacienteId;
+        Paciente = paciente;
+
+        MedicamentosDisponiveis = medicamentos
+            .Select(m => new SelectListItem(m.Nome, m.Id.ToString()))
+            .ToList();
+    }
+
+    public GerenciarPrescricaoViewModel(
+        Guid id,
+        string descricao,
+        string crmMedico,
+        Guid pacienteId,
+        string paciente,
+        List<MedicamentoPrescrito> medicamentosPrescritos,
+        List<Medicamento> medicamentos
+    ) : this(id, descricao, crmMedico, pacienteId, paciente, medicamentos)
+    {
+        MedicamentosPrescritos = medicamentosPrescritos
+            .Select(m => new DetalhesMedicamentoPrescritoViewModel(
+                m.Id,
+                m.Medicamento.Id,
+                m.Medicamento.Nome,
+                m.Dosagem,
+                m.Periodo,
+                m.Quantidade))
+            .ToList();
     }
 }
