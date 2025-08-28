@@ -1,0 +1,26 @@
+﻿@{
+    ViewBag.Titulo = "Cadastro de Prescrição";
+}
+
+@model CadastrarPrescricaoViewModel;
+
+<div class="row justify-content-center">
+    <form class="col-lg-8 col-xl-6" asp-action="Cadastrar" method="post">
+        <div class="mb-3">
+            <label asp-for="CrmMedico" class="form-label">CRM do Médico</label>
+            <input class="form-control" asp-for="CrmMedico">
+            <span asp-validation-for="CrmMedico" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="PacienteId" class="form-label">Paciente</label>
+            <select class="form-select" asp-for="PacienteId" asp-items="@Model.PacientesDisponiveis"></select>
+            <span asp-validation-for="PacienteId" class="text-danger"></span>
+        </div>
+
+        <div class="d-flex gap-2 justify-content-end">
+            <a asp-action="Index" class="btn btn-outline-primary px-5">Voltar</a>
+            <button class="btn btn-primary px-5">Gravar</button>
+        </div>
+    </form>
+</div>

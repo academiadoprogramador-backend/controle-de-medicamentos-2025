@@ -1,5 +1,4 @@
 ﻿using ControleDeMedicamentos.Dominio.ModuloFuncionario;
-using ControleDeMedicamentos.Infraestrutura.Arquivos.Compartilhado;
 using ControleDeMedicamentos.Infraestrutura.Arquivos.ModuloFuncionario;
 using ControleDeMedicamentos.WebApp.Models;
 using Microsoft.AspNetCore.Mvc;

@@ -1,5 +1,4 @@
 ﻿using ControleDeMedicamentos.Dominio.Compartilhado;
-using System.Diagnostics.CodeAnalysis;
 using System.Text.RegularExpressions;
 
 namespace ControleDeMedicamentos.Dominio.ModuloFuncionario;
