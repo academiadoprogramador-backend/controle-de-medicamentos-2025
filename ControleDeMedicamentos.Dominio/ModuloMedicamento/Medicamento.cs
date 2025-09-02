@@ -1,5 +1,6 @@
 ﻿using ControleDeMedicamentos.Dominio.Compartilhado;
 using ControleDeMedicamentos.Dominio.ModuloFornecedor;
+using ControleDeMedicamentos.Dominio.ModuloRequisicaoMedicamento;
 
 namespace ControleDeMedicamentos.Dominio.ModuloMedicamento;
 
@@ -8,7 +9,20 @@ public class Medicamento : EntidadeBase<Medicamento>
     public string Nome { get; set; }
     public string Descricao { get; set; }
     public Fornecedor Fornecedor { get; set; }
-    public int QuantidadeEmEstoque { get; set; }
+    public List<RequisicaoEntrada> RequisicoesEntrada { get; set; } = new List<RequisicaoEntrada>();
+
+    public int QuantidadeEmEstoque
+    {
+        get
+        {
+            int quantidadeEmEstoque = 0;
+
+            foreach (var req in RequisicoesEntrada)
+                quantidadeEmEstoque += req.QuantidadeRequisitada;
+
+            return quantidadeEmEstoque;
+        }
+    }
 
     public bool EmFalta
     {
@@ -27,6 +41,12 @@ public class Medicamento : EntidadeBase<Medicamento>
         Nome = nome;
         Descricao = descricao;
         Fornecedor = fornecedor;
+    }
+
+    public void AdicionarAoEstoque(RequisicaoEntrada requisicaoEntrada)
+    {
+        if (!RequisicoesEntrada.Contains(requisicaoEntrada))
+            RequisicoesEntrada.Add(requisicaoEntrada);
     }
 
     public override void AtualizarRegistro(Medicamento registroAtualizado)

@@ -4,6 +4,7 @@ using ControleDeMedicamentos.Infraestrutura.Arquivos.ModuloFuncionario;
 using ControleDeMedicamentos.Infraestrutura.Arquivos.ModuloMedicamento;
 using ControleDeMedicamentos.Infraestrutura.Arquivos.ModuloPaciente;
 using ControleDeMedicamentos.Infraestrutura.Arquivos.ModuloPrescricao;
+using ControleDeMedicamentos.Infraestrutura.Arquivos.ModuloRequisicaoMedicamento;
 
 namespace ControleDeMedicamentos.WebApp.DependencyInjection;
 
@@ -17,5 +18,6 @@ public static class InfraestruturaConfig
         services.AddScoped<RepositorioFuncionarioEmArquivo>();
         services.AddScoped<RepositorioPacienteEmArquivo>();
         services.AddScoped<RepositorioPrescricaoEmArquivo>();
+        services.AddScoped<RepositorioRequisicaoMedicamentoEmArquivo>();
     }
 }

@@ -1,0 +1,43 @@
+﻿@{
+    ViewBag.Titulo = "Visualização de Requisições de Medicamento (Estoque)";
+}
+
+@model VisualizarEstoqueViewModel;
+
+<a class="btn btn-primary" asp-action="CadastrarRequisicaoEntrada">
+    <i class="bi bi-plus"></i>
+    Requisição de Entrada
+</a>
+
+@if (Model.RequisicoesEntrada.Count > 0)
+{
+    <h3 class="mt-4">Requisições de Entrada</h3>
+
+    <div class="row g-3 mt-4">
+        @foreach (DetalhesRequisicaoEntradaViewModel d in Model.RequisicoesEntrada)
+        {
+            <div class="col-md-4 col-lg-3">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">Requisição de Entrada</h5>
+                        <p class="card-text mb-0"><strong>Data de Ocorrência:</strong> @d.DataOcorrencia.ToShortDateString()</p>
+                        <p class="card-text mb-0"><strong>Funcionário:</strong> @d.Funcionario</p>
+                        <p class="card-text mb-0"><strong>Medicamento:</strong> @d.Medicamento</p>
+                        <p class="card-text mb-0"><strong>Quantidade Requisitada:</strong> @d.QuantidadeRequisitada</p>
+                    </div>
+                    <div class="card-actions ms-auto me-3 mb-3 d-flex gap-1">
+                        <a class="btn btn-sm btn-primary rounded-circle d-flex justify-content-center align-items-center"
+                           style="height: 35px; width: 35px;"
+                           asp-action="Detalhes"
+                           asp-route-id="@d.Id">
+                            <i class="bi bi-clipboard"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+}
+
+
