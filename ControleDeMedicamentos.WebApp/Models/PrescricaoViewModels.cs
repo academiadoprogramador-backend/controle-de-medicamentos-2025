@@ -23,17 +23,15 @@ public class CadastrarPrescricaoViewModel
 
     [Required(ErrorMessage = "O campo 'Paciente' é obrigatório.")]
     public Guid PacienteId { get; set; }
-    public List<SelectListItem> PacientesDisponiveis { get; set; } = new List<SelectListItem>();
+    public List<SelectListItem>? PacientesDisponiveis { get; set; } = new List<SelectListItem>();
 
     public CadastrarPrescricaoViewModel() { }
 
     public CadastrarPrescricaoViewModel(List<Paciente> pacientes) : this()
     {
-        // Projeção de listas
         PacientesDisponiveis = pacientes
             .Select(p => new SelectListItem(p.Nome, p.Id.ToString()))
             .ToList();
-
     }
 }
 
