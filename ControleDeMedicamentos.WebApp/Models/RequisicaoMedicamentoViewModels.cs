@@ -1,5 +1,6 @@
 ﻿using ControleDeMedicamentos.Dominio.ModuloFuncionario;
 using ControleDeMedicamentos.Dominio.ModuloMedicamento;
+using ControleDeMedicamentos.Dominio.ModuloPrescricao;
 using ControleDeMedicamentos.Dominio.ModuloRequisicaoMedicamento;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.ComponentModel.DataAnnotations;
@@ -73,5 +74,58 @@ public class DetalhesRequisicaoEntradaViewModel
         Funcionario = funcionario;
         Medicamento = medicamento;
         QuantidadeRequisitada = quantidadeRequisitada;
+    }
+}
+
+public class PrimeiraEtapaCadastrarRequisicaoSaidaViewModel
+{
+    [Required(ErrorMessage = "O campo 'Funcionário' é obrigatório.")]
+    public Guid FuncionarioId { get; set; }
+    public List<SelectListItem>? FuncionariosDisponiveis { get; set; }
+
+    [Required(ErrorMessage = "O campo 'CPF do Paciente' é obrigatório.")]
+    [RegularExpression(
+        @"^\d{3}\.\d{3}\.\d{3}-\d{2}$",
+        ErrorMessage = "O campo 'CPF do Paciente' deve seguir o formato 000.000.000-00."
+    )]
+    public Guid CpfPaciente { get; set; }
+
+    public PrimeiraEtapaCadastrarRequisicaoSaidaViewModel() { }
+
+    public PrimeiraEtapaCadastrarRequisicaoSaidaViewModel(List<Funcionario> funcionarios)
+    {
+        FuncionariosDisponiveis = funcionarios
+            .Select(f => new SelectListItem(f.Nome, f.Id.ToString()))
+            .ToList();
+    }
+}
+
+public class SegundaEtapaCadastrarRequisicaoSaidaViewModel
+{
+    public Guid FuncionarioId { get; set; }
+    public string Funcionario { get; set; }
+    public string Paciente { get; set; }
+    public List<DetalhesPrescricaoViewModel> PrescricoesDoPaciente { get; set; } = new List<DetalhesPrescricaoViewModel>();
+
+    public SegundaEtapaCadastrarRequisicaoSaidaViewModel() { }
+
+    public SegundaEtapaCadastrarRequisicaoSaidaViewModel(
+        Guid funcionarioId,
+        string funcionario,
+        string paciente,
+        List<Prescricao> prescricoesDoPaciente
+    )
+    {
+        PrescricoesDoPaciente = prescricoesDoPaciente
+            .Select(p => new DetalhesPrescricaoViewModel(
+                p.Id,
+                p.Descricao,
+                p.CrmMedico,
+                p.Paciente.Nome,
+                p.DataEmissao,
+                p.DataValidade,
+                p.MedicamentosPrescritos
+            ))
+            .ToList();
     }
 }
