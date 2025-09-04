@@ -2,6 +2,8 @@
 using ControleDeMedicamentos.Infraestrutura.Arquivos.Compartilhado;
 using ControleDeMedicamentos.Infraestrutura.Arquivos.ModuloFuncionario;
 using ControleDeMedicamentos.Infraestrutura.Arquivos.ModuloMedicamento;
+using ControleDeMedicamentos.Infraestrutura.Arquivos.ModuloPaciente;
+using ControleDeMedicamentos.Infraestrutura.Arquivos.ModuloPrescricao;
 using ControleDeMedicamentos.Infraestrutura.Arquivos.ModuloRequisicaoMedicamento;
 using ControleDeMedicamentos.WebApp.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -15,18 +17,24 @@ public class RequisicaoMedicamentoController : Controller
     private readonly RepositorioRequisicaoMedicamentoEmArquivo repositorioRequisicaoMedicamento;
     private readonly RepositorioMedicamentoEmArquivo repositorioMedicamento;
     private readonly RepositorioFuncionarioEmArquivo repositorioFuncionario;
+    private readonly RepositorioPacienteEmArquivo repositorioPaciente;
+    private readonly RepositorioPrescricaoEmArquivo repositorioPrescricao;
 
     public RequisicaoMedicamentoController(
         ContextoDados contexto,
         RepositorioRequisicaoMedicamentoEmArquivo repositorioRequisicaoMedicamento,
         RepositorioMedicamentoEmArquivo repositorioMedicamento,
-        RepositorioFuncionarioEmArquivo repositorioFuncionario
+        RepositorioFuncionarioEmArquivo repositorioFuncionario,
+        RepositorioPacienteEmArquivo repositorioPaciente,
+        RepositorioPrescricaoEmArquivo repositorioPrescricao
     )
     {
         this.contexto = contexto;
         this.repositorioRequisicaoMedicamento = repositorioRequisicaoMedicamento;
         this.repositorioMedicamento = repositorioMedicamento;
         this.repositorioFuncionario = repositorioFuncionario;
+        this.repositorioPaciente = repositorioPaciente;
+        this.repositorioPrescricao = repositorioPrescricao;
     }
 
     [HttpGet]
@@ -85,5 +93,38 @@ public class RequisicaoMedicamentoController : Controller
         repositorioRequisicaoMedicamento.CadastrarRequisicaoEntrada(requisicaoEntrada);
 
         return RedirectToAction(nameof(Index));
+    }
+
+    [HttpGet]
+    public IActionResult PrimeiraEtapaCadastrarRequisicaoSaida()
+    {
+        var funcionariosDisponiveis = repositorioFuncionario.SelecionarRegistros();
+
+        var cadastrarVm = new PrimeiraEtapaCadastrarRequisicaoSaidaViewModel(funcionariosDisponiveis);
+
+        return View(cadastrarVm);
+    }
+
+    [HttpPost]
+    public IActionResult PrimeiraEtapaCadastrarRequisicaoSaida(PrimeiraEtapaCadastrarRequisicaoSaidaViewModel cadastrarVm)
+    {
+        var funcionarioSelecionado = repositorioFuncionario.SelecionarRegistroPorId(cadastrarVm.FuncionarioId);
+        var pacienteSelecionado = repositorioPaciente.SelecionarPacientePorCpf(cadastrarVm.CpfPaciente);
+
+        var prescricoesDoPaciente = repositorioPrescricao.SelecionarPrescricoesDoPaciente(pacienteSelecionado.Id);
+
+        var segundaEtapaVm = new SegundaEtapaCadastrarRequisicaoSaidaViewModel(
+            cadastrarVm.FuncionarioId,
+            funcionarioSelecionado.Nome,
+            pacienteSelecionado.Nome,
+            prescricoesDoPaciente
+        );
+
+        return View(nameof(SegundaEtapaCadastrarRequisicaoSaida), segundaEtapaVm);
+    }
+
+    [HttpPost]
+    public IActionResult SegundaEtapaCadastrarRequisicaoSaida(SegundaEtapaCadastrarRequisicaoSaidaViewModel cadastrarVm)
+    {
     }
 }

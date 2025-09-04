@@ -4,10 +4,19 @@
 
 @model VisualizarRequisicoesMedicamentoViewModel;
 
-<a class="btn btn-primary" asp-action="CadastrarRequisicaoEntrada">
-    <i class="bi bi-plus"></i>
-    Requisição de Entrada
-</a>
+<div class="d-flex align-items-center gap-2">
+
+    <a class="btn btn-primary" asp-action="CadastrarRequisicaoEntrada">
+        <i class="bi bi-plus"></i>
+        Requisição de Entrada
+    </a>
+
+    <a class="btn btn-primary" asp-action="PrimeiraEtapaCadastrarRequisicaoSaida">
+        <i class="bi bi-plus"></i>
+        Requisição de Saída
+    </a>
+
+</div>
 
 @if (Model.RequisicoesEntrada.Count > 0)
 {

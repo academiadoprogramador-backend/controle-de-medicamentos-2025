@@ -88,7 +88,7 @@ public class PrimeiraEtapaCadastrarRequisicaoSaidaViewModel
         @"^\d{3}\.\d{3}\.\d{3}-\d{2}$",
         ErrorMessage = "O campo 'CPF do Paciente' deve seguir o formato 000.000.000-00."
     )]
-    public Guid CpfPaciente { get; set; }
+    public string CpfPaciente { get; set; }
 
     public PrimeiraEtapaCadastrarRequisicaoSaidaViewModel() { }
 
