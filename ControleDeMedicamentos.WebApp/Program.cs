@@ -18,6 +18,16 @@ public class Program
 
         var app = builder.Build();
 
+        // Middleware - Funções que executam durante cada requisição e resposta HTTP
+        if (app.Environment.IsDevelopment())
+        {
+            app.UseDeveloperExceptionPage();
+        }
+        else
+        {
+            app.UseExceptionHandler("/Home/Error");
+        }
+
         app.UseHttpsRedirection();
         app.UseStaticFiles();
 
