@@ -1,7 +1,8 @@
 ﻿using ControleDeMedicamentos.Dominio.ModuloRequisicaoMedicamento;
-using ControleDeMedicamentos.Infraestrutura.Arquivos.Compartilhado;
 using ControleDeMedicamentos.Infraestrutura.Arquivos.ModuloFuncionario;
 using ControleDeMedicamentos.Infraestrutura.Arquivos.ModuloMedicamento;
+using ControleDeMedicamentos.Infraestrutura.Arquivos.ModuloPaciente;
+using ControleDeMedicamentos.Infraestrutura.Arquivos.ModuloPrescricao;
 using ControleDeMedicamentos.Infraestrutura.Arquivos.ModuloRequisicaoMedicamento;
 using ControleDeMedicamentos.WebApp.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -11,22 +12,25 @@ namespace ControleDeMedicamentos.WebApp.Controllers;
 
 public class RequisicaoMedicamentoController : Controller
 {
-    private readonly ContextoDados contexto;
     private readonly RepositorioRequisicaoMedicamentoEmArquivo repositorioRequisicaoMedicamento;
     private readonly RepositorioMedicamentoEmArquivo repositorioMedicamento;
     private readonly RepositorioFuncionarioEmArquivo repositorioFuncionario;
+    private readonly RepositorioPacienteEmArquivo repositorioPaciente;
+    private readonly RepositorioPrescricaoEmArquivo repositorioPrescricao;
 
     public RequisicaoMedicamentoController(
-        ContextoDados contexto,
         RepositorioRequisicaoMedicamentoEmArquivo repositorioRequisicaoMedicamento,
         RepositorioMedicamentoEmArquivo repositorioMedicamento,
-        RepositorioFuncionarioEmArquivo repositorioFuncionario
+        RepositorioFuncionarioEmArquivo repositorioFuncionario,
+        RepositorioPacienteEmArquivo repositorioPaciente,
+        RepositorioPrescricaoEmArquivo repositorioPrescricao
     )
     {
-        this.contexto = contexto;
         this.repositorioRequisicaoMedicamento = repositorioRequisicaoMedicamento;
         this.repositorioMedicamento = repositorioMedicamento;
         this.repositorioFuncionario = repositorioFuncionario;
+        this.repositorioPaciente = repositorioPaciente;
+        this.repositorioPrescricao = repositorioPrescricao;
     }
 
     [HttpGet]
@@ -71,7 +75,6 @@ public class RequisicaoMedicamentoController : Controller
         }
 
         var funcionarioSelecionado = repositorioFuncionario.SelecionarRegistroPorId(cadastrarVm.FuncionarioId);
-
         var medicamentoSelecionado = repositorioMedicamento.SelecionarRegistroPorId(cadastrarVm.MedicamentoId);
 
         var requisicaoEntrada = new RequisicaoEntrada(
