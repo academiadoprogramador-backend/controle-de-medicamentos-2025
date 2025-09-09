@@ -38,8 +38,9 @@ public class CadastrarRequisicaoEntradaViewModel
 public class VisualizarRequisicoesMedicamentoViewModel
 {
     public List<DetalhesRequisicaoEntradaViewModel> RequisicoesEntrada { get; set; }
+    public List<DetalhesRequisicaoSaidaViewModel> RequisicoesSaida { get; set; }
 
-    public VisualizarRequisicoesMedicamentoViewModel(List<RequisicaoEntrada> requisicoesEntrada)
+    public VisualizarRequisicoesMedicamentoViewModel(List<RequisicaoEntrada> requisicoesEntrada, List<RequisicaoSaida> requisicoesSaida)
     {
         RequisicoesEntrada = requisicoesEntrada
             .Select(r => new DetalhesRequisicaoEntradaViewModel(
@@ -48,6 +49,17 @@ public class VisualizarRequisicoesMedicamentoViewModel
                 r.Funcionario.Nome,
                 r.Medicamento.Nome,
                 r.QuantidadeRequisitada
+            ))
+            .ToList();
+
+        RequisicoesSaida = requisicoesSaida
+            .Select(r => new DetalhesRequisicaoSaidaViewModel(
+                r.Id,
+                r.DataOcorrencia,
+                r.Funcionario.Nome,
+                r.Prescricao.Paciente.Nome,
+                r.Prescricao.Descricao,
+                r.Prescricao.MedicamentosPrescritos
             ))
             .ToList();
     }
@@ -116,6 +128,10 @@ public class SegundaEtapaCadastrarRequisicaoSaidaViewModel
         List<Prescricao> prescricoesDoPaciente
     )
     {
+        FuncionarioId = funcionarioId;
+        Funcionario = funcionario;
+        Paciente = paciente;
+
         PrescricoesDoPaciente = prescricoesDoPaciente
             .Select(p => new DetalhesPrescricaoViewModel(
                 p.Id,
@@ -127,5 +143,100 @@ public class SegundaEtapaCadastrarRequisicaoSaidaViewModel
                 p.MedicamentosPrescritos
             ))
             .ToList();
+    }
+}
+
+public class EtapaFinalCadastrarRequisicaoSaidaViewModel
+{
+    public Guid FuncionarioId { get; set; }
+    public string Funcionario { get; set; }
+    public Guid PrescricaoId { get; set; }
+    public string Prescricao { get; set; }
+    public string Paciente { get; set; }
+    public List<DetalhesMedicamentoPrescritoViewModel> MedicamentosPrescritos { get; set; } = new List<DetalhesMedicamentoPrescritoViewModel>();
+
+    public EtapaFinalCadastrarRequisicaoSaidaViewModel() { }
+
+    public EtapaFinalCadastrarRequisicaoSaidaViewModel(
+        Guid funcionarioId,
+        string funcionario,
+        Guid prescricaoId,
+        string prescricao,
+        string paciente,
+        List<MedicamentoPrescrito> medicamentosPrescritos
+    )
+    {
+        FuncionarioId = funcionarioId;
+        Funcionario = funcionario;
+
+        PrescricaoId = prescricaoId;
+        Prescricao = prescricao;
+
+        Paciente = paciente;
+
+        MedicamentosPrescritos = medicamentosPrescritos
+           .Select(m => new DetalhesMedicamentoPrescritoViewModel(
+               m.Id,
+               m.Medicamento.Id,
+               m.Medicamento.Nome,
+               m.Dosagem,
+               m.Periodo,
+               m.Quantidade))
+           .ToList();
+    }
+}
+
+public class VisualizarRequisicoesSaidaViewModel
+{
+    public List<DetalhesRequisicaoSaidaViewModel> RequisicoesSaida { get; set; }
+
+    public VisualizarRequisicoesSaidaViewModel(List<RequisicaoSaida> requisicoesSaida)
+    {
+        RequisicoesSaida = requisicoesSaida
+            .Select(r => new DetalhesRequisicaoSaidaViewModel(
+                r.Id,
+                r.DataOcorrencia,
+                r.Funcionario.Nome,
+                r.Prescricao.Paciente.Nome,
+                r.Prescricao.Descricao,
+                r.Prescricao.MedicamentosPrescritos
+            ))
+            .ToList();
+    }
+}
+
+public class DetalhesRequisicaoSaidaViewModel
+{
+    public Guid Id { get; set; }
+    public DateTime DataOcorrencia { get; set; }
+    public string Funcionario { get; set; }
+    public string Paciente { get; set; }
+    public string Prescricao { get; set; }
+    public List<DetalhesMedicamentoPrescritoViewModel> MedicamentosPrescritos { get; set; } = new List<DetalhesMedicamentoPrescritoViewModel>();
+
+    public DetalhesRequisicaoSaidaViewModel(
+        Guid id,
+        DateTime dataOcorrencia,
+        string funcionario,
+        string paciente,
+        string prescricao,
+        List<MedicamentoPrescrito> medicamentosPrescritos
+    )
+    {
+        Id = id;
+        DataOcorrencia = dataOcorrencia;
+        Funcionario = funcionario;
+        Paciente = paciente;
+        Prescricao = prescricao;
+
+        MedicamentosPrescritos = medicamentosPrescritos
+          .Select(m => new DetalhesMedicamentoPrescritoViewModel(
+              m.Id,
+              m.Medicamento.Id,
+              m.Medicamento.Nome,
+              m.Dosagem,
+              m.Periodo,
+              m.Quantidade))
+          .ToList();
     }
 }

@@ -1,0 +1,62 @@
+﻿﻿@{
+    ViewBag.Titulo = "Segunda Etapa do Cadastro de Requisição de Entrada";
+}
+
+@model SegundaEtapaCadastrarRequisicaoSaidaViewModel;
+
+<div class="row justify-content-center">
+    <div class="col-lg-8 col-xl-7">
+
+        <div class="mb-3">
+            <label for="Funcionario" class="form-label">Funcionário</label>
+            <input class="form-control" name="Funcionario" value="@Model.Funcionario" readonly disabled>
+        </div>
+
+        <div class="mb-3">
+            <label for="Paciente" class="form-label">Paciente</label>
+            <input class="form-control" name="Paciente" value="@Model.Paciente" readonly disabled>
+        </div>
+
+        @if (!Model.PrescricoesDoPaciente.Any())
+        {
+            <p class="fw-semibold">Ainda não há nenhuma prescrição relacionada ao paciente...</p>
+        }
+        else
+        {
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Prescrição</th>
+                        <th>Data de Emissão</th>
+                        <th>Data de Validade</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (DetalhesPrescricaoViewModel p in Model.PrescricoesDoPaciente)
+                    {
+                        <tr>
+                            <td valign="middle">@p.Descricao</td>
+                            <td valign="middle">@p.DataEmissao.ToShortDateString()</td>
+                            <td valign="middle">@p.DataValidade.ToShortDateString()</td>
+                            <td>
+                                <form class="my-auto"
+                                    asp-action="SegundaEtapaCadastrarRequisicaoSaida"
+                                    asp-route-idFuncionario="@Model.FuncionarioId"
+                                    asp-route-idPrescricao="@p.Id">
+                                    <button class="btn btn-primary px-3">
+                                        Selecionar
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+
+        <div class="d-flex gap-2 justify-content-end">
+            <a asp-action="Index" class="btn btn-outline-primary px-5">Voltar</a>
+        </div>
+    </div>
+</div>

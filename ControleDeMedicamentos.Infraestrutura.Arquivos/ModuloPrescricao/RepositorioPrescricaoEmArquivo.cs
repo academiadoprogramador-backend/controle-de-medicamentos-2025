@@ -9,7 +9,7 @@ public class RepositorioPrescricaoEmArquivo : RepositorioBaseEmArquivo<Prescrica
 
     public List<Prescricao> SelecionarPrescricoesDoPaciente(Guid pacienteId)
     {
-        return registros.FindAll(p => p.Id == pacienteId);
+        return registros.FindAll(p => p.Paciente.Id == pacienteId);
     }
 
     protected override List<Prescricao> ObterRegistros()

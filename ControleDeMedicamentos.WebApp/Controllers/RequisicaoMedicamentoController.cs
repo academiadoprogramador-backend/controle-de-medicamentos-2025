@@ -1,4 +1,6 @@
-﻿using ControleDeMedicamentos.Dominio.ModuloRequisicaoMedicamento;
+﻿using ControleDeMedicamentos.Dominio.ModuloFuncionario;
+using ControleDeMedicamentos.Dominio.ModuloPrescricao;
+using ControleDeMedicamentos.Dominio.ModuloRequisicaoMedicamento;
 using ControleDeMedicamentos.Infraestrutura.Arquivos.Compartilhado;
 using ControleDeMedicamentos.Infraestrutura.Arquivos.ModuloFuncionario;
 using ControleDeMedicamentos.Infraestrutura.Arquivos.ModuloMedicamento;
@@ -13,7 +15,6 @@ namespace ControleDeMedicamentos.WebApp.Controllers;
 
 public class RequisicaoMedicamentoController : Controller
 {
-    private readonly ContextoDados contexto;
     private readonly RepositorioRequisicaoMedicamentoEmArquivo repositorioRequisicaoMedicamento;
     private readonly RepositorioMedicamentoEmArquivo repositorioMedicamento;
     private readonly RepositorioFuncionarioEmArquivo repositorioFuncionario;
@@ -21,7 +22,6 @@ public class RequisicaoMedicamentoController : Controller
     private readonly RepositorioPrescricaoEmArquivo repositorioPrescricao;
 
     public RequisicaoMedicamentoController(
-        ContextoDados contexto,
         RepositorioRequisicaoMedicamentoEmArquivo repositorioRequisicaoMedicamento,
         RepositorioMedicamentoEmArquivo repositorioMedicamento,
         RepositorioFuncionarioEmArquivo repositorioFuncionario,
@@ -29,7 +29,6 @@ public class RequisicaoMedicamentoController : Controller
         RepositorioPrescricaoEmArquivo repositorioPrescricao
     )
     {
-        this.contexto = contexto;
         this.repositorioRequisicaoMedicamento = repositorioRequisicaoMedicamento;
         this.repositorioMedicamento = repositorioMedicamento;
         this.repositorioFuncionario = repositorioFuncionario;
@@ -41,8 +40,9 @@ public class RequisicaoMedicamentoController : Controller
     public IActionResult Index()
     {
         var requisicoesEntrada = repositorioRequisicaoMedicamento.SelecionarRequisicoesEntrada();
+        var requisicoesSaida = repositorioRequisicaoMedicamento.SelecionarRequisicoesSaida();
 
-        var visualizarVm = new VisualizarRequisicoesMedicamentoViewModel(requisicoesEntrada);
+        var visualizarVm = new VisualizarRequisicoesMedicamentoViewModel(requisicoesEntrada, requisicoesSaida);
 
         return View(visualizarVm);
     }
@@ -124,7 +124,42 @@ public class RequisicaoMedicamentoController : Controller
     }
 
     [HttpPost]
-    public IActionResult SegundaEtapaCadastrarRequisicaoSaida(SegundaEtapaCadastrarRequisicaoSaidaViewModel cadastrarVm)
+    public IActionResult SegundaEtapaCadastrarRequisicaoSaida(Guid idFuncionario, Guid idPrescricao)
     {
+        var funcionarioSelecionado = repositorioFuncionario.SelecionarRegistroPorId(idFuncionario);
+
+        var prescricaoSelecionada = repositorioPrescricao.SelecionarRegistroPorId(idPrescricao);
+
+        var etapaFinalVm = new EtapaFinalCadastrarRequisicaoSaidaViewModel(
+            funcionarioSelecionado.Id,
+            funcionarioSelecionado.Nome,
+            prescricaoSelecionada.Id,
+            prescricaoSelecionada.Descricao,
+            prescricaoSelecionada.Paciente.Nome,
+            prescricaoSelecionada.MedicamentosPrescritos
+        );
+
+        return View(nameof(EtapaFinalCadastrarRequisicaoSaida), etapaFinalVm);
+    }
+
+    [HttpPost]
+    public IActionResult EtapaFinalCadastrarRequisicaoSaida(EtapaFinalCadastrarRequisicaoSaidaViewModel etapaFinalVm)
+    {
+        var funcionarioSelecionado = repositorioFuncionario.SelecionarRegistroPorId(etapaFinalVm.FuncionarioId);
+
+        var prescricaoSelecionada = repositorioPrescricao.SelecionarRegistroPorId(etapaFinalVm.PrescricaoId);
+
+        var requisicaoSaida = new RequisicaoSaida(funcionarioSelecionado, prescricaoSelecionada);
+
+        foreach (var mp in prescricaoSelecionada.MedicamentosPrescritos)
+        {
+            var medicamento = mp.Medicamento;
+
+            medicamento.RemoverDoEstoque(requisicaoSaida);
+        }
+
+        repositorioRequisicaoMedicamento.CadastrarRequisicaoSaida(requisicaoSaida);
+
+        return RedirectToAction(nameof(Index));
     }
 }
