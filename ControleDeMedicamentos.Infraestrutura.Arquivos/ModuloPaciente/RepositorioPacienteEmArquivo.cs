@@ -9,6 +9,11 @@ public class RepositorioPacienteEmArquivo : RepositorioBaseEmArquivo<Paciente>
     {
     }
 
+    public Paciente? SelecionarPacientePorCpf(string cpf)
+    {
+        return registros.Find(p => p.Cpf == cpf);
+    }
+
     protected override List<Paciente> ObterRegistros()
     {
         return contextoDados.Pacientes;
