@@ -10,7 +10,7 @@ public class Medicamento : EntidadeBase<Medicamento>
     public string Descricao { get; set; }
     public Fornecedor Fornecedor { get; set; }
     public List<RequisicaoEntrada> RequisicoesEntrada { get; set; } = new List<RequisicaoEntrada>();
-
+    public List<RequisicaoSaida> RequisicoesSaida { get; set; } = new List<RequisicaoSaida>();
     public int QuantidadeEmEstoque
     {
         get
@@ -20,10 +20,15 @@ public class Medicamento : EntidadeBase<Medicamento>
             foreach (var req in RequisicoesEntrada)
                 quantidadeEmEstoque += req.QuantidadeRequisitada;
 
+            foreach (var req in RequisicoesSaida)
+            {
+                foreach (var med in req.Prescricao.MedicamentosPrescritos)
+                    quantidadeEmEstoque -= med.Quantidade;
+            }
+
             return quantidadeEmEstoque;
         }
     }
-
 
     public bool EmFalta
     {
@@ -48,6 +53,12 @@ public class Medicamento : EntidadeBase<Medicamento>
     {
         if (!RequisicoesEntrada.Contains(requisicaoEntrada))
             RequisicoesEntrada.Add(requisicaoEntrada);
+    }
+
+    public void RemoverDoEstoque(RequisicaoSaida requisicaoSaida)
+    {
+        if (!RequisicoesSaida.Contains(requisicaoSaida))
+            RequisicoesSaida.Add(requisicaoSaida);
     }
 
     public override void AtualizarRegistro(Medicamento registroAtualizado)

@@ -1,0 +1,62 @@
+﻿﻿﻿@{
+    ViewBag.Titulo = "Última Etapa do Cadastro de Requisição de Saída";
+}
+
+@model UltimaEtapaCadastrarRequisicaoSaidaViewModel;
+
+<div class="row justify-content-center">
+    <form class="col-lg-8 col-xl-6" asp-action="UltimaEtapaCadastrarRequisicaoSaida">
+
+        <div class="mb-3">
+            <label asp-for="FuncionarioId" class="form-label">Funcionário</label>
+            <input class="form-control" asp-for="Funcionario" readonly disabled>
+            <input asp-for="FuncionarioId" hidden>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="PrescricaoId" class="form-label">Prescrição</label>
+            <input class="form-control" asp-for="Prescricao" readonly disabled>
+            <input asp-for="PrescricaoId" hidden>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Paciente" class="form-label">Paciente</label>
+            <input class="form-control" asp-for="Paciente" readonly disabled>
+            <input asp-for="Paciente" hidden>
+        </div>
+
+        @if (!Model.MedicamentosPrescritos.Any())
+        {
+            <p class="fw-semibold">Ainda não há nenhum medicamento relacionado à prescrição...</p>
+        }
+        else
+        {
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Medicamento</th>
+                        <th>Dosagem</th>
+                        <th>Período</th>
+                        <th>Quantidade</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (DetalhesMedicamentoPrescritoViewModel mp in Model.MedicamentosPrescritos)
+                    {
+                        <tr>
+                            <td valign="middle">@mp.Medicamento</td>
+                            <td valign="middle">@mp.Dosagem</td>
+                            <td valign="middle">@mp.Periodo</td>
+                            <td valign="middle">@mp.Quantidade</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+
+        <div class="d-flex gap-2 justify-content-end">
+            <a asp-action="Index" class="btn btn-outline-primary px-5">Voltar</a>
+            <button class="btn btn-primary px-5">Confirmar</button>
+        </div>
+    </form>
+</div>

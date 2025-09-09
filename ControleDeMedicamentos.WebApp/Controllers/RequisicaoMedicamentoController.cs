@@ -34,7 +34,7 @@ public class RequisicaoMedicamentoController : Controller
     {
         var requisicoesEntrada = repositorioRequisicaoMedicamento.SelecionarRequisicoesEntrada();
 
-        var visualizarVm = new VisualizarRequisicoesMedicamentoViewModel(requisicoesEntrada);
+        var visualizarVm = new VisualizarRequisicoesMedicamentoViewModel(requisicoesEntrada, []);
 
         return View(visualizarVm);
     }
