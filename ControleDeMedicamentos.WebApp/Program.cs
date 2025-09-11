@@ -9,7 +9,7 @@ public class Program
         var builder = WebApplication.CreateBuilder(args);
 
         // Injeção de dependências criadas por nós
-        builder.Services.AddCamadaInfraestrutura();
+        builder.Services.AddCamadaInfraestrutura(builder.Configuration);
 
         builder.Services.AddSerilogConfig(builder.Logging, builder.Configuration);
 

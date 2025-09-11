@@ -1,5 +1,4 @@
 ﻿using ControleDeMedicamentos.Dominio.ModuloPaciente;
-using ControleDeMedicamentos.Infraestrutura.Arquivos.ModuloPaciente;
 using ControleDeMedicamentos.WebApp.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -7,9 +6,9 @@ namespace ControleDeMedicamentos.WebApp.Controllers;
 
 public class PacienteController : Controller
 {
-    private readonly RepositorioPacienteEmArquivo repositorioPaciente;
+    private readonly IRepositorioPaciente repositorioPaciente;
 
-    public PacienteController(RepositorioPacienteEmArquivo repositorioPaciente)
+    public PacienteController(IRepositorioPaciente repositorioPaciente)
     {
         this.repositorioPaciente = repositorioPaciente;
     }

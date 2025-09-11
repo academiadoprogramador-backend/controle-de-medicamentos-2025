@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.14.36327.8 d17.14
+VisualStudioVersion = 17.14.36327.8
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1. Apresentação", "1. Apresentação", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
 EndProject
@@ -14,6 +14,12 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ControleDeMedicamentos.Infraestrutura.Arquivos", "ControleDeMedicamentos.Infraestrutura.Arquivos\ControleDeMedicamentos.Infraestrutura.Arquivos.csproj", "{100D9BBA-5EA5-4C14-BAB1-6DB7A80B0166}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ControleDeMedicamentos.WebApp", "ControleDeMedicamentos.WebApp\ControleDeMedicamentos.WebApp.csproj", "{D22BEAC6-0375-4AD0-AD24-00C87E6EB6C8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ControleDeMedicamentos.Infraestrutura.BancoDeDados", "ControleDeMedicamentos.Infraestrutura.BancoDeDados\ControleDeMedicamentos.Infraestrutura.BancoDeDados.csproj", "{74AA9359-9FCF-40B1-BD61-2A9A0D52FB46}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4. Ferramentas", "4. Ferramentas", "{323727A1-013B-448F-84B9-27C6561300A9}"
+EndProject
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "ControleDeMedicamentos.Util.ProjetoSql", "ControleDeMedicamentos.Util.ProjetoSql\ControleDeMedicamentos.Util.ProjetoSql.sqlproj", "{2D9FE5A2-F476-443B-8FEB-DD67702B402D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +39,16 @@ Global
 		{D22BEAC6-0375-4AD0-AD24-00C87E6EB6C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D22BEAC6-0375-4AD0-AD24-00C87E6EB6C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D22BEAC6-0375-4AD0-AD24-00C87E6EB6C8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{74AA9359-9FCF-40B1-BD61-2A9A0D52FB46}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{74AA9359-9FCF-40B1-BD61-2A9A0D52FB46}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{74AA9359-9FCF-40B1-BD61-2A9A0D52FB46}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{74AA9359-9FCF-40B1-BD61-2A9A0D52FB46}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2D9FE5A2-F476-443B-8FEB-DD67702B402D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2D9FE5A2-F476-443B-8FEB-DD67702B402D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2D9FE5A2-F476-443B-8FEB-DD67702B402D}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{2D9FE5A2-F476-443B-8FEB-DD67702B402D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2D9FE5A2-F476-443B-8FEB-DD67702B402D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2D9FE5A2-F476-443B-8FEB-DD67702B402D}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -41,6 +57,8 @@ Global
 		{36C786D4-BBE9-4401-92AF-82D82756C735} = {4A8A3214-2F4E-4BA4-9714-ADE277E884B3}
 		{100D9BBA-5EA5-4C14-BAB1-6DB7A80B0166} = {52A173F6-946B-452A-AE98-0321683AE878}
 		{D22BEAC6-0375-4AD0-AD24-00C87E6EB6C8} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{74AA9359-9FCF-40B1-BD61-2A9A0D52FB46} = {52A173F6-946B-452A-AE98-0321683AE878}
+		{2D9FE5A2-F476-443B-8FEB-DD67702B402D} = {323727A1-013B-448F-84B9-27C6561300A9}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B62922BB-A0ED-4BAD-ABFD-0DF60FBDEC9F}
