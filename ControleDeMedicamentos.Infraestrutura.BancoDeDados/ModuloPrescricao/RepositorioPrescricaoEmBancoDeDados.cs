@@ -18,6 +18,10 @@ public class RepositorioPrescricaoEmBancoDeDados(IDbConnection connection)
                 (@Id, @Descricao, @DataEmissao, @DataValidade, @CrmMedico, @PacienteId);
         ";
 
+        connection.Open();
+
+        using var tx = connection.BeginTransaction();
+
         connection.Execute(insertPrescricao, new
         {
             nova.Id,
@@ -26,7 +30,7 @@ public class RepositorioPrescricaoEmBancoDeDados(IDbConnection connection)
             nova.DataValidade,
             nova.CrmMedico,
             PacienteId = nova.Paciente.Id
-        });
+        }, tx);
 
         const string insertMedicamento = @"
             INSERT INTO [TBMedicamentoPrescrito]
@@ -45,8 +49,10 @@ public class RepositorioPrescricaoEmBancoDeDados(IDbConnection connection)
                 med.Dosagem,
                 med.Periodo,
                 med.Quantidade
-            });
+            }, tx);
         }
+
+        tx.Commit();
     }
 
     public bool EditarRegistro(Guid idSelecionado, Prescricao atualizada)
@@ -60,6 +66,10 @@ public class RepositorioPrescricaoEmBancoDeDados(IDbConnection connection)
              WHERE [Id] = @Id;
         ";
 
+        connection.Open();
+
+        using var tx = connection.BeginTransaction();
+
         var linhas = connection.Execute(updatePrescricao, new
         {
             Id = idSelecionado,
@@ -67,12 +77,12 @@ public class RepositorioPrescricaoEmBancoDeDados(IDbConnection connection)
             atualizada.DataValidade,
             atualizada.CrmMedico,
             PacienteId = atualizada.Paciente.Id
-        });
+        }, tx);
 
         // Limpa medicamentos antigos e insere novamente
         const string deleteMedicamentos = @"DELETE FROM [TBMedicamentoPrescrito] WHERE [PrescricaoId] = @PrescricaoId;";
 
-        connection.Execute(deleteMedicamentos, new { PrescricaoId = idSelecionado });
+        connection.Execute(deleteMedicamentos, new { PrescricaoId = idSelecionado }, tx);
 
         const string insertMedicamento = @"
             INSERT INTO [TBMedicamentoPrescrito]
@@ -91,14 +101,18 @@ public class RepositorioPrescricaoEmBancoDeDados(IDbConnection connection)
                 med.Dosagem,
                 med.Periodo,
                 med.Quantidade
-            });
+            }, tx);
         }
+
+        tx.Commit();
 
         return linhas > 0;
     }
 
     public bool ExcluirRegistro(Guid idSelecionado)
     {
+        connection.Open();
+
         using var tx = connection.BeginTransaction();
 
         connection.Execute(
