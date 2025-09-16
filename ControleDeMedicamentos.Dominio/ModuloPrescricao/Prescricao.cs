@@ -34,7 +34,7 @@ public class Prescricao : EntidadeBase<Prescricao>
 
     public MedicamentoPrescrito AdicionarMedicamentoPrescrito(Medicamento medicamento, string dosagem, string periodo, int quantidade)
     {
-        var medicamentoPrescrito = new MedicamentoPrescrito(medicamento, dosagem, periodo, quantidade);
+        var medicamentoPrescrito = new MedicamentoPrescrito(this, medicamento, dosagem, periodo, quantidade);
 
         MedicamentosPrescritos.Add(medicamentoPrescrito);
 

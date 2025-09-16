@@ -1,4 +1,5 @@
 ﻿using ControleDeMedicamentos.Dominio.ModuloFornecedor;
+using ControleDeMedicamentos.Infraestrutura.BancoDeDados.ModuloFornecedor;
 using ControleDeMedicamentos.WebApp.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -6,9 +7,9 @@ namespace ControleDeMedicamentos.WebApp.Controllers;
 
 public class FornecedorController : Controller
 {
-    private readonly IRepositorioFornecedor repositorioFornecedor;
+    private readonly RepositorioFornecedorEmBancoDeDados repositorioFornecedor;
 
-    public FornecedorController(IRepositorioFornecedor repositorioFornecedor)
+    public FornecedorController(RepositorioFornecedorEmBancoDeDados repositorioFornecedor)
     {
         this.repositorioFornecedor = repositorioFornecedor;
     }

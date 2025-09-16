@@ -3,6 +3,9 @@ using ControleDeMedicamentos.Infraestrutura.Arquivos.Compartilhado;
 using ControleDeMedicamentos.Infraestrutura.Arquivos.ModuloMedicamento;
 using ControleDeMedicamentos.Infraestrutura.Arquivos.ModuloPaciente;
 using ControleDeMedicamentos.Infraestrutura.Arquivos.ModuloPrescricao;
+using ControleDeMedicamentos.Infraestrutura.BancoDeDados.ModuloMedicamento;
+using ControleDeMedicamentos.Infraestrutura.BancoDeDados.ModuloPaciente;
+using ControleDeMedicamentos.Infraestrutura.BancoDeDados.ModuloPrescricao;
 using ControleDeMedicamentos.WebApp.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -12,15 +15,15 @@ namespace ControleDeMedicamentos.WebApp.Controllers;
 public class PrescricaoController : Controller
 {
     private readonly ContextoDados contexto;
-    private readonly RepositorioPrescricaoEmArquivo repositorioPrescricao;
-    private readonly RepositorioMedicamentoEmArquivo repositorioMedicamento;
-    private readonly RepositorioPacienteEmArquivo repositorioPaciente;
+    private readonly RepositorioPrescricaoEmBancoDeDados repositorioPrescricao;
+    private readonly RepositorioMedicamentoEmBancoDeDados repositorioMedicamento;
+    private readonly RepositorioPacienteEmBancoDeDados repositorioPaciente;
 
     public PrescricaoController(
         ContextoDados contexto,
-        RepositorioPrescricaoEmArquivo repositorioPrescricao,
-        RepositorioMedicamentoEmArquivo repositorioMedicamento,
-        RepositorioPacienteEmArquivo repositorioPaciente
+        RepositorioPrescricaoEmBancoDeDados repositorioPrescricao,
+        RepositorioMedicamentoEmBancoDeDados repositorioMedicamento,
+        RepositorioPacienteEmBancoDeDados repositorioPaciente
     )
     {
         this.contexto = contexto;
