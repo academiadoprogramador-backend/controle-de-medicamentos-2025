@@ -1,8 +1,5 @@
 ﻿using ControleDeMedicamentos.Dominio.ModuloPrescricao;
 using ControleDeMedicamentos.Infraestrutura.Arquivos.Compartilhado;
-using ControleDeMedicamentos.Infraestrutura.Arquivos.ModuloMedicamento;
-using ControleDeMedicamentos.Infraestrutura.Arquivos.ModuloPaciente;
-using ControleDeMedicamentos.Infraestrutura.Arquivos.ModuloPrescricao;
 using ControleDeMedicamentos.Infraestrutura.BancoDeDados.ModuloMedicamento;
 using ControleDeMedicamentos.Infraestrutura.BancoDeDados.ModuloPaciente;
 using ControleDeMedicamentos.Infraestrutura.BancoDeDados.ModuloPrescricao;
@@ -107,14 +104,14 @@ public class PrescricaoController : Controller
 
         var medicamentoSelecionado = repositorioMedicamento.SelecionarRegistroPorId(adicionarMedicamentoVm.MedicamentoId);
 
-        prescricaoSelecionada.AdicionarMedicamentoPrescrito(
+        prescricaoSelecionada!.AdicionarMedicamentoPrescrito(
             medicamentoSelecionado,
             adicionarMedicamentoVm.DosagemMedicamento,
             adicionarMedicamentoVm.PeriodoMedicamento,
             adicionarMedicamentoVm.QuantidadeMedicamento
         );
 
-        contexto.Salvar();
+        repositorioPrescricao.EditarRegistro(idPrescricao, prescricaoSelecionada);
 
         return RedirectToAction(nameof(Gerenciar), new { id = idPrescricao });
     }
@@ -124,9 +121,9 @@ public class PrescricaoController : Controller
     {
         var prescricaoSelecionada = repositorioPrescricao.SelecionarRegistroPorId(idPrescricao);
 
-        prescricaoSelecionada.RemoverMedicamentoPrescrito(idMedicamentoPrescrito);
+        prescricaoSelecionada!.RemoverMedicamentoPrescrito(idMedicamentoPrescrito);
 
-        contexto.Salvar();
+        repositorioPrescricao.EditarRegistro(idPrescricao, prescricaoSelecionada);
 
         return RedirectToAction(nameof(Gerenciar), new { id = idPrescricao });
     }

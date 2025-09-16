@@ -17,7 +17,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ControleDeMedicamentos.WebA
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ControleDeMedicamentos.Infraestrutura.BancoDeDados", "ControleDeMedicamentos.Infraestrutura.BancoDeDados\ControleDeMedicamentos.Infraestrutura.BancoDeDados.csproj", "{74AA9359-9FCF-40B1-BD61-2A9A0D52FB46}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4. Ferramentas", "4. Ferramentas", "{323727A1-013B-448F-84B9-27C6561300A9}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4. Utilidade", "4. Utilidade", "{323727A1-013B-448F-84B9-27C6561300A9}"
 EndProject
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "ControleDeMedicamentos.Util.ProjetoSql", "ControleDeMedicamentos.Util.ProjetoSql\ControleDeMedicamentos.Util.ProjetoSql.sqlproj", "{2D9FE5A2-F476-443B-8FEB-DD67702B402D}"
 EndProject

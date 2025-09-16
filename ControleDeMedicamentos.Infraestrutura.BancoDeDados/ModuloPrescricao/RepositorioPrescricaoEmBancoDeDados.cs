@@ -3,7 +3,6 @@ using ControleDeMedicamentos.Dominio.ModuloMedicamento;
 using ControleDeMedicamentos.Dominio.ModuloPaciente;
 using ControleDeMedicamentos.Dominio.ModuloPrescricao;
 using Dapper;
-using Microsoft.Win32;
 using System.Data;
 
 namespace ControleDeMedicamentos.Infraestrutura.BancoDeDados.ModuloPrescricao;
@@ -119,10 +118,25 @@ public class RepositorioPrescricaoEmBancoDeDados(IDbConnection connection)
     {
         // 1) Carrega prescrições com paciente
         const string sqlPrescricoes = @"
-            SELECT p.[Id], p.[Descricao], p.[DataEmissao], p.[DataValidade], p.[CrmMedico],
-                   pa.[Id] AS PacienteId, pa.[Nome], pa.[Telefone], pa.[CartaoSus], pa.[Cpf]
-              FROM [TBPrescricao] p
-              JOIN [TBPaciente]  pa ON pa.[Id] = p.[PacienteId];
+            SELECT 
+                -- Bloco da Prescricao
+                p.[Id],
+                p.[Descricao],
+                p.[DataEmissao],
+                p.[DataValidade],
+                p.[CrmMedico],
+
+                -- Marcador de split entre Prescricao -> Paciente
+                p.[PacienteId] AS PacienteId,
+
+                -- Bloco do Paciente (note o Id com nome 'Id' para mapear Paciente.Id)
+                pa.[Id]        AS [Id],
+                pa.[Nome],
+                pa.[Telefone],
+                pa.[CartaoSus],
+                pa.[Cpf]
+            FROM [TBPrescricao] p
+            INNER JOIN [TBPaciente] pa ON pa.[Id] = p.[PacienteId];
         ";
 
         var prescricoes = connection.Query<Prescricao, Paciente, Prescricao>(

@@ -1,7 +1,4 @@
-﻿using ControleDeMedicamentos.Dominio.ModuloFornecedor;
-using ControleDeMedicamentos.Dominio.ModuloFuncionario;
-using ControleDeMedicamentos.Dominio.ModuloPaciente;
-using ControleDeMedicamentos.Infraestrutura.Arquivos.Compartilhado;
+﻿using ControleDeMedicamentos.Infraestrutura.Arquivos.Compartilhado;
 using ControleDeMedicamentos.Infraestrutura.Arquivos.ModuloMedicamento;
 using ControleDeMedicamentos.Infraestrutura.Arquivos.ModuloPrescricao;
 using ControleDeMedicamentos.Infraestrutura.Arquivos.ModuloRequisicaoMedicamento;
