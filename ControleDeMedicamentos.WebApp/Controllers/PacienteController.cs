@@ -1,5 +1,4 @@
 ﻿using ControleDeMedicamentos.Dominio.ModuloPaciente;
-using ControleDeMedicamentos.Infraestrutura.Arquivos.ModuloPaciente;
 using ControleDeMedicamentos.Infraestrutura.SqlServer.ModuloPaciente;
 using ControleDeMedicamentos.WebApp.Models;
 using Microsoft.AspNetCore.Mvc;

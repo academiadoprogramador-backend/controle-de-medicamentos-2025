@@ -35,10 +35,10 @@ public class RepositorioPacienteEmSql
     {
         const string sql = @"
             UPDATE [TBPaciente]
-               SET [Nome]      = @Nome,
-                   [Telefone]  = @Telefone,
-                   [CartaoSus] = @CartaoSus,
-                   [Cpf]       = @Cpf
+            SET [Nome]      = @Nome,
+                [Telefone]  = @Telefone,
+                [CartaoSus] = @CartaoSus,
+                [Cpf]       = @Cpf
              WHERE [Id] = @Id;
         ";
 
@@ -67,7 +67,7 @@ public class RepositorioPacienteEmSql
     {
         const string sql = @"
             SELECT [Id], [Nome], [Telefone], [CartaoSus], [Cpf]
-              FROM [TBPaciente]
+            FROM [TBPaciente]
             ORDER BY [Nome];
         ";
 
@@ -78,8 +78,8 @@ public class RepositorioPacienteEmSql
     {
         const string sql = @"
             SELECT [Id], [Nome], [Telefone], [CartaoSus], [Cpf]
-              FROM [TBPaciente]
-             WHERE [Id] = @Id;
+            FROM [TBPaciente]
+            WHERE [Id] = @Id;
         ";
 
         return connection.QueryFirstOrDefault<Paciente>(sql, new { Id = idSelecionado });

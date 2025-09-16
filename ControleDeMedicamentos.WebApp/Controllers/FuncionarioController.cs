@@ -1,5 +1,5 @@
 ﻿using ControleDeMedicamentos.Dominio.ModuloFuncionario;
-using ControleDeMedicamentos.Infraestrutura.Arquivos.ModuloFuncionario;
+using ControleDeMedicamentos.Infraestrutura.SqlServer.ModuloFuncionario;
 using ControleDeMedicamentos.WebApp.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -7,9 +7,9 @@ namespace ControleDeMedicamentos.WebApp.Controllers;
 
 public class FuncionarioController : Controller
 {
-    private readonly RepositorioFuncionarioEmArquivo repositorioFuncionario;
+    private readonly RepositorioFuncionarioEmSql repositorioFuncionario;
 
-    public FuncionarioController(RepositorioFuncionarioEmArquivo repositorioFuncionario)
+    public FuncionarioController(RepositorioFuncionarioEmSql repositorioFuncionario)
     {
         this.repositorioFuncionario = repositorioFuncionario;
     }
