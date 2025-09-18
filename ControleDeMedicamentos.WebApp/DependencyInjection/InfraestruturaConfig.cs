@@ -4,6 +4,7 @@ using ControleDeMedicamentos.Infraestrutura.Arquivos.ModuloPrescricao;
 using ControleDeMedicamentos.Infraestrutura.Arquivos.ModuloRequisicaoMedicamento;
 using ControleDeMedicamentos.Infraestrutura.SqlServer.ModuloFornecedor;
 using ControleDeMedicamentos.Infraestrutura.SqlServer.ModuloFuncionario;
+using ControleDeMedicamentos.Infraestrutura.SqlServer.ModuloMedicamento;
 using ControleDeMedicamentos.Infraestrutura.SqlServer.ModuloPaciente;
 using Microsoft.Data.SqlClient;
 using System.Data;
@@ -24,6 +25,7 @@ public static class InfraestruturaConfig
         services.AddScoped<RepositorioPacienteEmSql>();
         services.AddScoped<RepositorioFuncionarioEmSql>();
         services.AddScoped<RepositorioFornecedorEmSql>();
+        services.AddScoped<RepositorioMedicamentoEmSql>();
 
         services.AddScoped((_) => new ContextoDados(true));
         //services.AddScoped<RepositorioPacienteEmArquivo>();
