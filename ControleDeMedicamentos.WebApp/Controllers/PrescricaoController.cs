@@ -3,6 +3,9 @@ using ControleDeMedicamentos.Infraestrutura.Arquivos.Compartilhado;
 using ControleDeMedicamentos.Infraestrutura.Arquivos.ModuloMedicamento;
 using ControleDeMedicamentos.Infraestrutura.Arquivos.ModuloPaciente;
 using ControleDeMedicamentos.Infraestrutura.Arquivos.ModuloPrescricao;
+using ControleDeMedicamentos.Infraestrutura.SqlServer.ModuloMedicamento;
+using ControleDeMedicamentos.Infraestrutura.SqlServer.ModuloPaciente;
+using ControleDeMedicamentos.Infraestrutura.SqlServer.ModuloPrescricao;
 using ControleDeMedicamentos.WebApp.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -11,19 +14,16 @@ namespace ControleDeMedicamentos.WebApp.Controllers;
 
 public class PrescricaoController : Controller
 {
-    private readonly ContextoDados contexto;
-    private readonly RepositorioPrescricaoEmArquivo repositorioPrescricao;
-    private readonly RepositorioMedicamentoEmArquivo repositorioMedicamento;
-    private readonly RepositorioPacienteEmArquivo repositorioPaciente;
+    private readonly RepositorioPrescricaoEmSql repositorioPrescricao;
+    private readonly RepositorioMedicamentoEmSql repositorioMedicamento;
+    private readonly RepositorioPacienteEmSql repositorioPaciente;
 
     public PrescricaoController(
-        ContextoDados contexto,
-        RepositorioPrescricaoEmArquivo repositorioPrescricao,
-        RepositorioMedicamentoEmArquivo repositorioMedicamento,
-        RepositorioPacienteEmArquivo repositorioPaciente
+        RepositorioPrescricaoEmSql repositorioPrescricao,
+        RepositorioMedicamentoEmSql repositorioMedicamento,
+        RepositorioPacienteEmSql repositorioPaciente
     )
     {
-        this.contexto = contexto;
         this.repositorioPrescricao = repositorioPrescricao;
         this.repositorioMedicamento = repositorioMedicamento;
         this.repositorioPaciente = repositorioPaciente;
@@ -111,7 +111,7 @@ public class PrescricaoController : Controller
             adicionarMedicamentoVm.QuantidadeMedicamento
         );
 
-        contexto.Salvar();
+        repositorioPrescricao.Editar(idPrescricao, prescricaoSelecionada);
 
         return RedirectToAction(nameof(Gerenciar), new { id = idPrescricao });
     }
@@ -123,7 +123,7 @@ public class PrescricaoController : Controller
 
         prescricaoSelecionada.RemoverMedicamentoPrescrito(idMedicamentoPrescrito);
 
-        contexto.Salvar();
+        repositorioPrescricao.Editar(idPrescricao, prescricaoSelecionada);
 
         return RedirectToAction(nameof(Gerenciar), new { id = idPrescricao });
     }
