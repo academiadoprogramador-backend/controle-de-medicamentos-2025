@@ -64,5 +64,7 @@
     <Build Include="TBMedicamento.sql" />
     <Build Include="TBPrescricao.sql" />
     <Build Include="TBMedicamentoPrescrito.sql" />
+    <Build Include="TBRequisicaoEntrada.sql" />
+    <Build Include="TBRequisicaoSaida.sql" />
   </ItemGroup>
 </Project>

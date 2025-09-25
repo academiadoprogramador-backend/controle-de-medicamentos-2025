@@ -204,4 +204,9 @@ public class RepositorioPrescricaoEmSql(IDbConnection connection)
     {
         return SelecionarRegistros().FirstOrDefault(x => x.Id.Equals(id));
     }
+
+    public List<Prescricao> SelecionarPrescricoesDoPaciente(Guid pacienteId)
+    {
+        return SelecionarRegistros().Where(x => x.Paciente.Id.Equals(pacienteId)).ToList();
+    }
 }
