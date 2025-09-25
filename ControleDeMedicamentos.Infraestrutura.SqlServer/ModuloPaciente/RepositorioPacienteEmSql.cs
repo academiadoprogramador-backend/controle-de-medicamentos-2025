@@ -84,4 +84,15 @@ public class RepositorioPacienteEmSql
 
         return connection.QueryFirstOrDefault<Paciente>(sql, new { Id = idSelecionado });
     }
+
+    public Paciente? SelecionarPacientePorCpf(string cpfPaciente)
+    {
+        const string sql = @"
+            SELECT [Id], [Nome], [Telefone], [CartaoSus], [Cpf]
+            FROM [TBPaciente]
+            WHERE [Cpf] = @Cpf;
+        ";
+
+        return connection.QueryFirstOrDefault<Paciente>(sql, new { Cpf = cpfPaciente });
+    }
 }

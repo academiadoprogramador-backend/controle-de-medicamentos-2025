@@ -4,6 +4,11 @@ using ControleDeMedicamentos.Infraestrutura.Arquivos.ModuloMedicamento;
 using ControleDeMedicamentos.Infraestrutura.Arquivos.ModuloPaciente;
 using ControleDeMedicamentos.Infraestrutura.Arquivos.ModuloPrescricao;
 using ControleDeMedicamentos.Infraestrutura.Arquivos.ModuloRequisicaoMedicamento;
+using ControleDeMedicamentos.Infraestrutura.SqlServer.ModuloFuncionario;
+using ControleDeMedicamentos.Infraestrutura.SqlServer.ModuloMedicamento;
+using ControleDeMedicamentos.Infraestrutura.SqlServer.ModuloPaciente;
+using ControleDeMedicamentos.Infraestrutura.SqlServer.ModuloPrescricao;
+using ControleDeMedicamentos.Infraestrutura.SqlServer.ModuloRequisicaoMedicamento;
 using ControleDeMedicamentos.WebApp.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -12,18 +17,18 @@ namespace ControleDeMedicamentos.WebApp.Controllers;
 
 public class RequisicaoMedicamentoController : Controller
 {
-    private readonly RepositorioRequisicaoMedicamentoEmArquivo repositorioRequisicaoMedicamento;
-    private readonly RepositorioMedicamentoEmArquivo repositorioMedicamento;
-    private readonly RepositorioFuncionarioEmArquivo repositorioFuncionario;
-    private readonly RepositorioPacienteEmArquivo repositorioPaciente;
-    private readonly RepositorioPrescricaoEmArquivo repositorioPrescricao;
+    private readonly RepositorioRequisicaoMedicamentoEmSql repositorioRequisicaoMedicamento;
+    private readonly RepositorioMedicamentoEmSql repositorioMedicamento;
+    private readonly RepositorioFuncionarioEmSql repositorioFuncionario;
+    private readonly RepositorioPacienteEmSql repositorioPaciente;
+    private readonly RepositorioPrescricaoEmSql repositorioPrescricao;
 
     public RequisicaoMedicamentoController(
-        RepositorioRequisicaoMedicamentoEmArquivo repositorioRequisicaoMedicamento,
-        RepositorioMedicamentoEmArquivo repositorioMedicamento,
-        RepositorioFuncionarioEmArquivo repositorioFuncionario,
-        RepositorioPacienteEmArquivo repositorioPaciente,
-        RepositorioPrescricaoEmArquivo repositorioPrescricao
+        RepositorioRequisicaoMedicamentoEmSql repositorioRequisicaoMedicamento,
+        RepositorioMedicamentoEmSql repositorioMedicamento,
+        RepositorioFuncionarioEmSql repositorioFuncionario,
+        RepositorioPacienteEmSql repositorioPaciente,
+        RepositorioPrescricaoEmSql repositorioPrescricao
     )
     {
         this.repositorioRequisicaoMedicamento = repositorioRequisicaoMedicamento;
@@ -105,6 +110,7 @@ public class RequisicaoMedicamentoController : Controller
     public IActionResult PrimeiraEtapaCadastrarRequisicaoSaida(PrimeiraEtapaCadastrarRequisicaoSaidaViewModel cadastrarVm)
     {
         var funcionarioSelecionado = repositorioFuncionario.SelecionarRegistroPorId(cadastrarVm.FuncionarioId);
+
         var pacienteSelecionado = repositorioPaciente.SelecionarPacientePorCpf(cadastrarVm.CpfPaciente);
 
         var prescricoesDoPaciente = repositorioPrescricao.SelecionarPrescricoesDoPaciente(pacienteSelecionado!.Id);
@@ -126,6 +132,9 @@ public class RequisicaoMedicamentoController : Controller
 
         var prescricaoSelecionada = repositorioPrescricao.SelecionarRegistroPorId(idPrescricao);
 
+        if (funcionarioSelecionado is null || prescricaoSelecionada is null)
+            return NotFound();
+
         var ultimaEtapaVm = new UltimaEtapaCadastrarRequisicaoSaidaViewModel(
             idFuncionario,
             funcionarioSelecionado.Nome,
@@ -143,7 +152,10 @@ public class RequisicaoMedicamentoController : Controller
     {
         var funcionarioSelecionado = repositorioFuncionario.SelecionarRegistroPorId(ultimaEtapaVm.FuncionarioId);
 
-        var prescricaoSelecionada =  repositorioPrescricao.SelecionarRegistroPorId(ultimaEtapaVm.PrescricaoId);
+        var prescricaoSelecionada = repositorioPrescricao.SelecionarRegistroPorId(ultimaEtapaVm.PrescricaoId);
+
+        if (funcionarioSelecionado is null || prescricaoSelecionada is null)
+            return NotFound();
 
         var requisicaoSaida = new RequisicaoSaida(funcionarioSelecionado, prescricaoSelecionada);
 
